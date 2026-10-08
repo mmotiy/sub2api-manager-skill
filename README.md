@@ -48,3 +48,7 @@ python "$S" redeem --code 卡密 --yes
 - access_token 约 24h 过期；有 refresh_token 时脚本 401 后自动续期，无需人工干预。
 - 端点细节见 [references/api.md](references/api.md)（基于上游源码 + 线上实测，2026-10-08）。
 - 二开站点与上游 master 可能存在少量端点差异，遇 404 参考 api.md 的替代方案。
+
+## License
+
+[MIT](LICENSE)
