@@ -7,7 +7,7 @@
 **A. 给 AI agent 的自安装指令** —— 如果你是 agent，正在读这个 README：把本仓库 clone 到你的 skills 目录即可完成安装：
 
 ```bash
-git clone --depth 1 https://github.com/mmotiy/sub2api-manager.git \
+git clone --depth 1 https://github.com/mmotiy/sub2api-manager-skill.git \
   <你的skills目录>/sub2api-manager
 ```
 
@@ -16,8 +16,8 @@ skills 目录按你的 harness 选择（存在哪个用哪个）：`~/.agents/sk
 **B. 一键安装脚本**：
 
 ```bash
-git clone --depth 1 https://github.com/mmotiy/sub2api-manager.git /tmp/sub2api-manager \
-  && bash /tmp/sub2api-manager/scripts/install.sh
+git clone --depth 1 https://github.com/mmotiy/sub2api-manager-skill.git /tmp/sub2api-manager-skill \
+  && bash /tmp/sub2api-manager-skill/scripts/install.sh
 ```
 
 **C. 手动**：把仓库内容放进任意上述 skills 目录即可。
