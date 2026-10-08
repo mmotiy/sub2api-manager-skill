@@ -52,7 +52,7 @@ python3 "$S" redeem --code 卡密 --yes  # 兑换（消耗卡密，先向用户�
   python3 "$S" set-token --token "eyJ..."          # 保存并自动验证
   ```
 - 若用户愿意给账号密码，可 `python3 "$S" login --email xx --password yy`，脚本会保存 access+refresh 双 token 以后自动续期。
-- 多站点：`--profile 名字`，首次配合 `set-token --base-url https://其它站点` 使用。
+- **多站点**：每个站点一个 profile。新站点首次 `python3 "$S" --profile 名字 set-token --base-url https://站点 --token eyJ...`（或 `--profile 名字 login ...`），之后该 profile 的所有命令都带 `--profile 名字`。`python3 "$S" profiles` 查看全部站点、账号与 token 有效期。
 
 ## 行为约定
 

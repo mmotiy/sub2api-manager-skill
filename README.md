@@ -34,7 +34,7 @@ python3 "$S" login --email you@example.com --password '***'
 python3 "$S" set-token --token "eyJ..."
 ```
 
-Token 与配置存于 `~/.sub2api-manager/config.json`，不进 skill 目录。默认站点为 `https://vip.auto-code.net`，其他 sub2api 站点用 `--profile 名字` + `set-token --base-url https://...`。
+Token 与配置存于 `~/.sub2api-manager/config.json`，不进 skill 目录。默认站点为 `https://vip.auto-code.net`；**支持多站点**：其他 sub2api 站点用 `--profile 名字` + `set-token --base-url https://...` 各自配置，`profiles` 命令总览全部站点。
 
 ## 用法速览
 

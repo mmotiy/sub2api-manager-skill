@@ -385,6 +385,34 @@ def cmd_subs_progress(a):
         print(f"  {json.dumps(s, ensure_ascii=False)[:200]}")
 
 
+def cmd_profiles(a):
+    cfg = load_cfg()
+    profiles = cfg.get("profiles", {})
+    if not profiles:
+        print("尚未配置任何 profile。用 set-token 或 login 创建。")
+        return
+    if a.json:
+        print_json(profiles)
+        return
+    print(f"已配置站点（{len(profiles)} 个，默认 default）：")
+    for name, p in sorted(profiles.items()):
+        exp = "-"
+        tok = p.get("access_token") or ""
+        if tok.count(".") == 2:
+            try:
+                payload = tok.split(".")[1]
+                import base64
+                payload += "=" * (-len(payload) % 4)
+                exp = datetime.fromtimestamp(json.loads(base64.urlsafe_b64decode(payload))["exp"]) \
+                    .strftime("%Y-%m-%d %H:%M")
+            except Exception:
+                exp = "?"
+        cur = " <-- 当前默认查询用 --profile 指定" if False else ""
+        print(f"  [{name}] {p.get('base_url', '?')}")
+        print(f"      账号: {p.get('email', '-')}  token有效期至: {exp}"
+              f"  refresh_token: {'有' if p.get('refresh_token') else '无'}")
+
+
 def cmd_redeem(a):
     if not a.yes:
         die("兑换会消耗卡密且不可恢复。确认请加 --yes")
@@ -498,6 +526,9 @@ def main():
     p.set_defaults(fn=cmd_subs_summary)
     p = sub.add_parser("subs-progress", help="订阅进度")
     p.set_defaults(fn=cmd_subs_progress)
+
+    p = sub.add_parser("profiles", help="已配置的站点列表")
+    p.set_defaults(fn=cmd_profiles)
 
     p = sub.add_parser("redeem", help="卡密兑换（消耗性，需 --yes）")
     p.add_argument("--code", required=True, help="卡密")
