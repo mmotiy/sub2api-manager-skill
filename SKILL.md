@@ -10,35 +10,37 @@ description: "管理 sub2api 系 AI API 网关站点（主站点 https://vip.aut
 
 ## 快速用法
 
-脚本：`scripts/sub2api.py`（纯标准库，用 `python` 直接跑）。配置与 token 存于 `~/.sub2api-manager/config.json`（按 profile 分站点），已预置 default = vip.auto-code.net。
+脚本位于**本 skill 目录**下的 `scripts/sub2api.py`（纯标准库，Python 3 直接跑；下文以 `$S` 代指其绝对路径，即 `<本skill目录>/scripts/sub2api.py`）。配置与 token 存于 `~/.sub2api-manager/config.json`（按 profile 分站点），不依赖 skill 目录、可随时覆盖更新。
 
 ```bash
-S="C:/Users/mmotiy/.agents/skills/sub2api-manager/scripts/sub2api.py"
+S="<本skill目录>/scripts/sub2api.py"   # 用实际安装路径替换
 
 # 余额/账户
-python "$S" me                          # 余额、累计充值、并发、状态
+python3 "$S" me                        # 余额、累计充值、并发、状态
 
 # 用量统计
-python "$S" usage-stats --start 2026-10-01 --end 2026-10-08
-python "$S" usage-trend --granularity day
+python3 "$S" usage-stats --start 2026-10-01 --end 2026-10-08
+python3 "$S" usage-trend --granularity day
 
 # API 密钥
-python "$S" keys                        # 列表（默认脱敏；--show-key 显示完整）
-python "$S" key-create --name 名字 --group-id 49 --quota 5 --expires-days 30
-python "$S" key-update 123 --status inactive      # 停用
-python "$S" key-update 123 --group-id 35          # 切换分组（实测支持）
-python "$S" key-update 123 --quota 0 --reset-quota  # 改无限额并重置已用
-python "$S" key-delete 123 --yes                  # 不可恢复，先向用户确认
+python3 "$S" keys                      # 列表（默认脱敏；--show-key 显示完整）
+python3 "$S" key-create --name 名字 --group-id 49 --quota 5 --expires-days 30
+python3 "$S" key-update 123 --status inactive      # 停用
+python3 "$S" key-update 123 --group-id 35          # 切换分组（实测支持）
+python3 "$S" key-update 123 --quota 0 --reset-quota  # 改无限额并重置已用
+python3 "$S" key-delete 123 --yes                  # 不可恢复，先向用户确认
 
 # 分组与订阅
-python "$S" groups                      # 可用分组（含倍率、限额）
-python "$S" subs                        # 订阅列表（含周期与日/周/月用量）
-python "$S" subs-summary                # 订阅用量汇总
+python3 "$S" groups                    # 可用分组（含倍率、限额）
+python3 "$S" subs                      # 订阅列表（含周期与日/周/月用量）
+python3 "$S" subs-summary              # 订阅用量汇总
 
 # 卡密兑换
-python "$S" redeem-history              # 兑换历史
-python "$S" redeem --code 卡密 --yes    # 兑换（消耗卡密，先向用户确认）
+python3 "$S" redeem-history            # 兑换历史
+python3 "$S" redeem --code 卡密 --yes  # 兑换（消耗卡密，先向用户确认）
 ```
+
+> Windows 无 `python3` 时用 `python`；脚本带可执行位，也可直接 `./scripts/sub2api.py`。
 
 所有命令支持 `--json` 输出原始响应、`--profile <名>` 切换站点、`--token <jwt>` 临时覆盖 token。注意全局选项（`--json`/`--profile`/`--token`）要放在子命令**前面**。
 
@@ -47,9 +49,9 @@ python "$S" redeem --code 卡密 --yes    # 兑换（消耗卡密，先向用户
 - access_token 约 **24 小时过期**（JWT exp 字段）。401 时脚本会用 refresh_token 自动续期一次。
 - 续期也失败时脚本会报错停止——此时**向用户要新 token**（让用户从浏览器 F12 复制任意 `/api/v1/` 请求的 `authorization: Bearer` 后串），然后：
   ```bash
-  python "$S" set-token --token "eyJ..."          # 保存并自动验证
+  python3 "$S" set-token --token "eyJ..."          # 保存并自动验证
   ```
-- 若用户愿意给账号密码，可 `python "$S" login --email xx --password yy`，脚本会保存 access+refresh 双 token 以后自动续期。
+- 若用户愿意给账号密码，可 `python3 "$S" login --email xx --password yy`，脚本会保存 access+refresh 双 token 以后自动续期。
 - 多站点：`--profile 名字`，首次配合 `set-token --base-url https://其它站点` 使用。
 
 ## 行为约定
