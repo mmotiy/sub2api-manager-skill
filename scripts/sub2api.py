@@ -294,6 +294,8 @@ def cmd_key_update(a):
         body["name"] = a.name
     if a.status:
         body["status"] = a.status
+    if a.group_id is not None:
+        body["group_id"] = a.group_id
     if a.quota is not None:
         body["quota"] = a.quota
     if a.expires_at:
@@ -473,6 +475,7 @@ def main():
     p.add_argument("id", type=int)
     p.add_argument("--name")
     p.add_argument("--status", choices=["active", "inactive"])
+    p.add_argument("--group-id", type=int, help="切换分组")
     p.add_argument("--quota", type=float)
     p.add_argument("--expires-at", help="ISO 8601 时间")
     p.add_argument("--reset-quota", action="store_true")

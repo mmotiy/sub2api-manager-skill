@@ -26,6 +26,7 @@ python "$S" usage-trend --granularity day
 python "$S" keys                        # 列表（默认脱敏；--show-key 显示完整）
 python "$S" key-create --name 名字 --group-id 49 --quota 5 --expires-days 30
 python "$S" key-update 123 --status inactive      # 停用
+python "$S" key-update 123 --group-id 35          # 切换分组（实测支持）
 python "$S" key-update 123 --quota 0 --reset-quota  # 改无限额并重置已用
 python "$S" key-delete 123 --yes                  # 不可恢复，先向用户确认
 
